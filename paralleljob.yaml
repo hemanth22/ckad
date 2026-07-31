@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: parallel-job
+spec:
+  completions: 6
+  parallelism: 2
+
+  template:
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: worker
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              echo "Starting work in $HOSTNAME"
+              sleep 10
+              echo "Work completed in $HOSTNAME"

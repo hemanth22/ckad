@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nightly-backup
+spec:
+  schedule: "*/1 * * * *"
+
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+
+          volumes:
+            - name: backup
+              emptyDir: {}
+
+          containers:
+            - name: backup
+              image: busybox:1.36
+
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+
+              command:
+                - sh
+                - -c
+                - |
+                  echo "Starting backup..."
+                  DATE=$(date +%F-%H%M%S)
+                  echo "Backup created on $(date)" \
+                    > /backup/backup-${DATE}.txt
+                  ls -l /backup
+                  echo "Backup completed."
