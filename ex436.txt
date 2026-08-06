@@ -1,0 +1,43 @@
+    1  pcs status --full
+    2  lvs
+    3  history | less
+    4  vgcreate halvmvg /dev/sda1
+    5  lvcreate -n halvmlv -L 1G halvmvg
+    6  mkfs.xfs /dev/halvmvg/halvmlv 
+    7  pcs resource create halvm LVM-activate vgname=halvmvg  vg_access_mode=system_id --group=webgroup
+    8  pcs status --full
+    9  pcs resource create xfsfs Filesystem device=/dev/halvmvg/halvmlv directory=/var/www fstype=xfs --group=webgroup
+   10  pcs status --full
+   11  pcs resource create webip IPaddr2 ip=192.168.29.99 cidr_netmask=24 --group=webgroup
+   12  ping 192.168.29.99
+   13  pcs status --full
+   14  pcs resource create webserver apache --group=webgroup
+   15  pcs status --full
+   16  lvs
+   17  history
+   18  curl 192.168.29.99
+   19  setenforce permissive
+   20  pcs status --full
+   21  pcs resource delete webserver
+   22  cat <<-END > /etc/httpd/conf.d/status.conf
+<Location /server-status>
+    SetHandler server-status
+    Require local
+</Location>
+END
+
+   23  cat <<-END > /etc/httpd/conf.d/status.conf
+<Location /server-status>
+    SetHandler server-status
+    Require local
+</Location>
+END
+
+   24  pcs resource create webserver apache configfile="/etc/httpd/conf/httpd.conf" statusurl="http://127.0.0.1/server-status"  --group=webgroup
+   25  pcs status --full
+   26  curl 192.168.29.99
+   27  setenforce enforcing
+   28  pcs status --full
+   29  curl 192.168.29.99
+   30  history
+   31  history >/tmp/ex436.txt

@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  mode: development
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: troubleshooting-demo
+spec:
+  restartPolicy: Always
+
+  containers:
+    - name: application
+      image: busybox:1.36
+      command:
+        - sh
+        - -c
+        - |
+          echo "Starting application"
+
+          APP_MODE="$(cat /etc/app/mode)"
+          echo "Configured mode: ${APP_MODE}"
+
+          if [ "${APP_MODE}" != "production" ]; then
+            echo "ERROR: Unsupported mode '${APP_MODE}'"
+            echo "Expected mode: production"
+            exit 1
+          fi
+
+          echo "Application started successfully"
+          sleep 3600
+
+      volumeMounts:
+        - name: configuration
+          mountPath: /etc/app
+          readOnly: true
+
+  volumes:
+    - name: configuration
+      configMap:
+        name: incorrect-config-name
