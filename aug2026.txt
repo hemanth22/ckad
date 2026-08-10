@@ -1,0 +1,136 @@
+    1  sudo apt install -y git vim
+    2  free -m
+    3  lscpu | less
+    4  lsblk
+    5  sudo apt install open-vm-tools open-vm-tools-desktop
+    6  sudo reboot
+    7  sudo systemctl reboot -i
+    8  minikube start --cni=calico --memory=6G
+    9  minikube status
+   10  kubectl get all
+   11  history
+   12  kubectl run myapp --image=nginx
+   13  kubectl get all
+   14  kubectl get pods -o yaml | less
+   15  kubectl get pods myapp -o yaml | less
+   16  history
+   17  kubectl create deploy monday --image=nginx --relicas=3
+   18  kubectl create deploy monday --image=nginx --replicas=3
+   19  kubectl get all
+   20  kubectl delete pod myapp
+   21  kubectl get all
+   22  kubectl delete pod monday-65486d7887-xl9mt 
+   23  kubectl get all
+   24  kubectl create deploy mydb --image=mariadb
+   25  kubectl get all
+   26  kubectl describe pod mydb-7888d987c5-4tk6k 
+   27  kubectl logs mydb-7888d987c5-4tk6k 
+   28  history
+   29  kubectl run mynewapp --image=nginx --dry-run=client -o yaml
+   30  kubectl run mynewapp --image=nginx --dry-run=client -o yaml > mynewapp.yaml
+   31  cat mynewapp.yaml 
+   32  kubectl apply -f mynewapp.yaml 
+   33  kubectl get pods
+   34  kubectl describe pod mynewapp | less
+   35  kubectl logs mynewapp 
+   36  history
+   37  kubectl get pods
+   38  kubectl get pods --help | less
+   39  kubectl create role -h | less
+   40  history
+   41  vim mynewapp.yaml 
+   42  kubectl explain pod.spec | less
+   43  history
+   44  kubectl api-resources | less
+   45  kubectl create rs --help | less
+   46  kubectl get all
+   47  history | grep reate
+   48  kubectl get deploy
+   49  kubectl edit deploy monday 
+   50  kubectl get deploy monday -o yaml
+   51  kubectl edit pod mynewapp 
+   52  vim ~/.vimrc
+   53  kubectl describe pod mynewapp 
+   54  kubectl describe pod mynewapp  | less
+   55  kubectl edit deployments.apps mydb 
+   56  kubectl get all --show-labels
+   57  kubectl get pods -l app=mydb
+   58  history
+   59  kubectl get ns
+   60  kubectl get pods
+   61  kubectl create ns secret
+   62  kubectl run secretpod --image=nginx -n secret
+   63  kubectl get pods
+   64  kubectl get pods -n secret
+   65  kubectl config set-context --current --namespace=secret
+   66  kubectl get pods
+   67  kubectl config set-context --current --namespace=default
+   68  history
+   69  history | grep sander
+   70  vim initcontainer.yaml 
+   71  kubectl apply -f initcontainer.yaml 
+   72  kubectl get pods
+   73  kubectl get pod mynewapp -o yaml | less
+   74  kubectl get pod web -o yaml | less
+   75  vim sidecar.yaml 
+   76  vim deploy-sidecar.yaml
+   77  kubectl apply -d deploy-sidecar.yaml 
+   78  kubectl apply -f deploy-sidecar.yaml 
+   79  kubectl get deploy --show-labels
+   80  kubectl get all -l app=myapp
+   81  kubectl logs myapp-68bdc564bb-scv9p 
+   82  kubectl logs myapp-68bdc564bb-scv9p -c logshipper
+   83  history
+   84  kubectl get all -l app=mydb
+   85  kubectl describe pod mydb-7888d987c5-4tk6k | less
+   86  kubectl logs mydb-7888d987c5-4tk6k 
+   87  kubectl set env --help | less
+   88  #kubectl set env deployment/sample-build STORAGE_DIR=/data
+   89  kubectl set env deployment/mydbv MARIADB_ROOT_PASSWORD=password
+   90  kubectl set env deployment/mydb MARIADB_ROOT_PASSWORD=password
+   91  kubectl get pods mydb-6978c6bb65-jp2l8 -o yaml | less
+   92  history
+   93  vim simplejob.yaml 
+   94  kubectl apply -f simplejob.yaml 
+   95  kubectl get jobs,pods
+   96  history
+   97  vim paralleljob.yaml 
+   98  kubectl apply -f paralleljob.yaml 
+   99  kubectl get jobs,pods
+  100  grep -i cronjob
+  101  grep -i cronjob *
+  102  grep -il cronjob *
+  103  vim nightly-backup-job.yaml 
+  104  kubectl apply -f nightly-backup-job.yaml 
+  105  kubectl get jobs,pods,cronjobs
+  106  kubectl create job -h | less
+  107  date
+  108  kubectl get jobs,pods,cronjobs
+  109  cat failed-job.yaml 
+  110  kubectl apply -f failed-job.yaml 
+  111  kubectl get jobs,pods
+  112  kubectl logs failed-job-t2d9f 
+  113  kubectl logs failed-job-whrxv 
+  114  vim failed-job.yaml 
+  115  kubectl delete job failed-job 
+  116  kubectl get jobs,pods
+  117  kubectl delete cronjobs.batch nightly-backup 
+  118  vim failed-job.yaml 
+  119  kubectl get jobs,pods
+  120  kubectl explain jobs.spec | less
+  121  kubectl apply -f failed-job.yaml 
+  122  kubectl get jobs,pods
+  123  sleep 40
+  124  kubectl get jobs,pods
+  125  cd alpmap/
+  126  ls
+  127  ln Containerfile Dockerfile
+  128  vim Dockerfile 
+  129  docker build -t alpmap .
+  130  touch sander.repo
+  131  docker build -t alpmap .
+  132  docker images
+  133  cd
+  134  sudo openssh-server
+  135  sudo apt install -y openssh-server
+  136  history > /tmp/aug2026.txt
