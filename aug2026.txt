@@ -134,3 +134,180 @@
   134  sudo openssh-server
   135  sudo apt install -y openssh-server
   136  history > /tmp/aug2026.txt
+  137  ip a
+  138  history
+  139  docker images
+  140  cd ckad/
+  141  cd alpmap/
+  142  cat Dockerfile 
+  143  docker build -t docker.io/sandervanvugt/alpmap26 .
+  144  docker images
+  145  docker login
+  146  docker login -u sandervanvugt
+  147  docker push sandervanvugt/alpmap26:latest
+  148  kubectl run sanderpod docker.io/sandervanvugt/alpmap26
+  149  kubectl run sanderpod --image=docker.io/sandervanvugt/alpmap26
+  150  kubectl get pods
+  151  kubectl decribe pod sanderpod
+  152  kubectl describe pod sanderpod
+  153  kubectl create job -h | less
+  154  history
+  155  #kubectl create job my-job --image=busybox -- date
+  156  kubectl create job uselessjob --image=docker.io/sandervanvugt/alpmap26
+  157  kubectl get jobs,pods
+  158  history
+  159  cat Dockerfile 
+  160  kubectl explain pod.spec | less
+  161  kubectl explain pod.spec.containers | less
+  162  kubectl explain deployment.spec.template.spec.containers | less
+  163  kubectl get deploy
+  164  kubectl describe deploy monday | less
+  165  kubectl edit deploy monday 
+  166  kubectl get all --show-labels
+  167  kubectl get all --selector app=monday
+  168  kubectl get all -l app=monday
+  169  kubectl get deploy
+  170  kubectl scale deploy monday --replicas=5
+  171  kubectl get deploy
+  172  kubectl autoscale -h | less
+  173  kubectl get deploy
+  174  kubectl autoscale deploy monday --min=2 --max=4
+  175  kubectl get deploy
+  176  kubectl edit deployments.apps monday
+  177  history
+  178  kubectl create deploy rolling --image=nginx:1.29 --replicas=5
+  179  kubectl get all
+  180  kubectl get all --selector app=rolling
+  181  kubectl set image deploy rolling nginx:1.30
+  182  kubectl set image -h | less
+  183  kubectl edit deploy rolling 
+  184  kubectl set image deploy/rolling nginx=nginx:1.30
+  185  kubectl get all --selector app=rolling
+  186  history
+  187  kubectl rollout status deployment rolling
+  188  kubectl rollout history deployment rolling
+  189  kubectl rollout undo deployment rolling 
+  190  kubectl rollout status deployment rolling
+  191  kubectl rollout history deployment rolling
+  192  kubectl rollout status deployment rolling 3
+  193  history
+  194  kubectl edit deploy rolling 
+  195  kubectl set image deploy rolling nginx=nginx:1.31
+  196  kubectl get all --selector app=rolling
+  197  history
+  198  kubectl edit deploy monday 
+  199  kubectl get all -l app=monday
+  200  kubectl set image deploy monday nginx=nginx:1.26
+  201  kubectl get all -l app=monday
+  202  kubectl delete deploy mydb
+  203  kubectl create deploy mydb --image=mariadb --replicas=3
+  204  kubectl get all --selector app=mydb
+  205  kubectl logs mydb-7888d987c5-b9hv2 
+  206  kubectl set env deploy mydb --from-literal=MARIADB_ROOT_PASSWORD=password
+  207  kubectl set env deploy mydb --from-litteral=MARIADB_ROOT_PASSWORD=password
+  208  kubectl set env -h | less
+  209  kubectl set env deploy mydb MARIADB_ROOT_PASSWORD=password
+  210  kubectl get all --selector app=mydb
+  211  kubectl get deploy mydb -o yaml | less
+  212  kubectl delete deploy mydb
+  213  kubectl create cm testing --from-literal environment=testing
+  214  cd ..
+  215  ls
+  216  vim RESOURCE.TXT 
+  217  kubectl get cm testing -o yaml
+  218  kubectl create deploy mydeploy --image=nginx
+  219  kubectl set env deploy/mydeploy --from cm testing
+  220  kubectl set env deploy/mydeploy --from cm/testing
+  221  kubectl get deploy mydeploy -o yaml | less
+  222  kubectl create cm sander --from-literal type=book
+  223  kubectl set env deploy/mydeploy --from configmap/sander
+  224  kubectl get deploy mydeploy -o yaml | less
+  225  kubectl exec mydeploy-5b4bf7fd66-8hjxb -- echo $TYPE
+  226  kubectl exec mydeploy-5b4bf7fd66-8hjxb -- env
+  227  history
+  228  echo hello | base64
+  229  echo aGVsbG8K | base64 -d
+  230  kubectl create secret -h | less
+  231  kubectl create secret tls -h | less
+  232  kubectl get deploy
+  233  kubectl create deploy mydb --image=mariadb --replicas=3
+  234  kubectl get all --selector app=mydb
+  235  kubectl create secret generic mydbpwd --from-literal root_password=password
+  236  kubectl get secret mydbpwd 
+  237  kubectl get secret mydbpwd -o yaml
+  238  kubectl set env deploy/mydb --from-secret/mydbpwd --prefix=mariadb_
+  239  kubectl set env deploy/mydb --from secret/mydbpwd --prefix=mariadb_
+  240  kubect get deploy mydb -o yaml | less
+  241  kubectl get deploy mydb -o yaml | less
+  242  kubectl get all --selector app=mydb
+  243  kubectl set env deploy/mydb --from secret/mydbpwd --prefix=MARIADB_
+  244  kubectl get all --selector app=mydb
+  245  history
+  246  kubectl get pods -o yaml | grep -C5 -i downward
+  247  vim cmfile.yaml 
+  248  kubectl apply -f cmfile.yaml 
+  249  cim cmfileapp.yaml 
+  250  vim cmfileapp.yaml 
+  251  kubectl apply -f cmfileapp.yaml 
+  252  kubectl logs config-demo 
+  253  kubectl exec config-demo -- cat /etc/config/app.conf
+  254  kubectl edit cm app-config
+  255  sleep 60
+  256  kubectl exec config-demo -- cat /etc/config/app.conf
+  257  history
+  258  vim resourcelimits.yaml
+  259  kubectl apply -f resourcelimits.yaml 
+  260  kubectl get pods
+  261  kubectl describe pod frontend 
+  262  kubectl describe nodes minikube 
+  263  kubectl create quota -h | less
+  264  vim hardquota.yaml 
+  265  kubectl create ns restructed
+  266  kubectl apply -f hardquota.yaml 
+  267  kubectl describe ns  restructed 
+  268  kubectl create deploy restructapp --image=nginx --replicas=3
+  269  kubectl create deploy restructapp --image=nginx --replicas=3 -n restructed 
+  270  kubectl delete deployments.apps restructapp 
+  271  kubectl get all -n restructed 
+  272  kubectl describe rs -n restructed restructapp-6975cc7456 
+  273  kubectl set -h | less
+  274  kubectl set -n restructed resources deploy restructapp --cpu=1,memory=1G
+  275  kubectl set -h | less
+  276  kubectl set resources -h | less
+  277  kubectl set -n restructed resources deploy restructapp --requests=cpu=1,memory=1G
+  278  kubectl get all -n restructed 
+  279  kubectl describe -n restructed rs restructapp-64bd9696d8 
+  280  kubectl set -n restructed resources deploy restructapp --limits=cpu=1,memory=1G
+  281  kubectl get all -n restructed 
+  282  kubectl describe ns restructed 
+  283  kubectl describe pod -n restructed restructapp-64d4f985c4-c4d6b 
+  284  history
+  285  minikube ssh
+  286  lsblk
+  287  kubectl run demo --image=busybox -it -- sh
+  288  kubectl rm pod demo
+  289  kubectl delete pod demo
+  290  kubectl run demo --image=busybox -it -- sh
+  291  kubectl delete pod demo --force --timeout=1
+  292  kubectl delete pod demo --force --timeout=1s
+  293  vim morevolumes.yaml 
+  294  kubectl apply -f morevolumes.yaml 
+  295  kubectl exec -it morevol -c busy1 -- touch /busy1/sleepy
+  296  kubectl exec -it morevol -c busy2 -- ls -l /busy2/
+  297  kubectl get sc
+  298  vim pv.yaml 
+  299  kubectl apply -f pv.yaml 
+  300  kubectl get pv,pvc
+  301  vim pvc.yaml 
+  302  kubectl apply -f pvc.yaml 
+  303  kubectl get pv,pvc
+  304  vim pv.yaml 
+  305  kubectl apply -f pv.yaml 
+  306  vim pvc.yaml 
+  307  kubectl apply -f pvc.yaml 
+  308  kubectl get pv,pvc
+  309  vim pvc-pod.yaml 
+  310  kubectl apply -f pvc-pod.yaml 
+  311  kubectl get pvc,pv
+  312  history
+  313  history > /tmp/aug2026.txt 
