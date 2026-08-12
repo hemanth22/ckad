@@ -311,3 +311,224 @@
   311  kubectl get pvc,pv
   312  history
   313  history > /tmp/aug2026.txt 
+  314  ip a
+  315  sudo snap install helm --classic
+  316  helm versino
+  317  helm version
+  318  helm repo add bitnami https://charts.bitnami.com/bitnami
+  319  helm repo update
+  320  helm search repo nginx
+  321  helm install webserver bitnami/nginx
+  322  helm list
+  323  kubectl get all
+  324  kubectl delete all --all
+  325  kubectl get all
+  326  helm list
+  327  helm upgrade --install webserver bitnami/nginx
+  328  kubectl get all
+  329  helm history webserver
+  330  helm rollback 1
+  331  helm rollback webserver 1
+  332  history
+  333  helm show values bitnami/nginx
+  334  ls
+  335  helm show values bitnami/nginx | less
+  336  helm show values bitnami/redis | less
+  337  helm install redis bitnami/redis --set replicaCount=3
+  338  helm list
+  339  kubectl get all
+  340  helm uninstall redis
+  341  kubectl describe pod webserver-nginx-7f9477498f-q2sn7 
+  342  kubectl get quota
+  343  kubectl get pods
+  344  kubectl get pods -o wide webserver-nginx-7f9477498f-q2sn7 
+  345  kubectl get pods -o yaml webserver-nginx-7f9477498f-q2sn7 
+  346  kubectl get all
+  347  helm uninstall webserver
+  348  kubectl create deploy webbie --image=nginx --replicas=3
+  349  kubectl get pods -o wide
+  350  kubectl expose deploy webbie --port=80
+  351  kubectl get all
+  352  curl 10.105.46.83
+  353  kubectl edit svc webbie 
+  354  kubectl get all
+  355  minikube ip
+  356  curl 192.168.49.2:30768
+  357  history
+  358  kubectl describe svc webbie 
+  359  kubectl edit svc webbie 
+  360  curl 192.168.49.2:30768
+  361  kubectl describe svc webbie 
+  362  kubectl get pods --show-labels
+  363  kubectl edit svc webbie 
+  364  history
+  365  kubectl edit clusterConfiguration
+  366  kubectl api-resources | grep -i cluster
+  367  cat RESOURCE.TXT 
+  368  history
+  369  kubectl get svc
+  370  kubectl get ns
+  371  kubectl get pods -n secret
+  372  kubectl run testpod --image=busybox -n secret
+  373  kubectl delete pods testpod -n secret
+  374  kubectl delete pods testpod -n secret -- curl webbie
+  375  kubectl delete pods testpod -n secret -- ping webbie
+  376  kubectl run testpod --image=busybox -n secret -- ping webbie
+  377  kubectl delete pods testpod -n secret
+  378  kubectl run testpod --image=busybox -n secret -- sleep infinity
+  379  kubectl exec -it -n secret testpod -- sh
+  380  minikube addons list
+  381  minikube addons enable ingress
+  382  kubectl get ns
+  383  kubectl get all -n ingress-nginx 
+  384  kubectl describe -n ingress-nginx pod ingress-nginx-controller-596f8778bc-gbqfz 
+  385  kubectl get all -n restructed 
+  386  kubectl describe -n restructed deployments.apps restructapp 
+  387  kubectl describe node minikube 
+  388  kubectl delete -n restructed deployments.apps restructapp 
+  389  kubectl describe node minikube 
+  390  history
+  391  kubectl get all -n ingress-nginx 
+  392  kubectl create deploy nginxsvc --image=nginx --port=80
+  393  kubectl expose deploy nginxsvc --port=80
+  394  kubectl get svc
+  395  kubectl create ingress nginxsvc-ingress --rule="nginxsvc.info/=nginxsvc:80"
+  396  kubectl describe ingress nginxsvc-ingress 
+  397  curl nginxsvc.info
+  398  sudo sh -c 'echo "$(minikube ip) nginxsvc.info" >> /etc/hosts'
+  399  cat /etc/hosts
+  400  sudo sh -c 'echo "192.168.49.2 nginxsvc.info" >> /etc/hosts'
+  401  cat /etc/hosts
+  402  curl nginxsvc.info
+  403  history
+  404  vim nwpolicy-complete-example.yaml 
+  405  kubectl apply -f nwpolicy-complete-example.yaml 
+  406  kubectl expose pod nginx --port=80
+  407  kubectl exec -it busybox -- curl nginx
+  408  kubectl exec -it busybox -- wget nginx
+  409  kubectl describe netpol
+  410  kubectl get pods --show-labels
+  411  kubectl label pod busybox access=true
+  412  kubectl exec -it busybox -- wget nginx
+  413  kubectl get pods -o yaml | less
+  414  kubectl get sa
+  415  kubectl get sa -A
+  416  kubectl create sa sander
+  417  history
+  418  kubectl create role -h | less
+  419  kubectl create role pod-reader --verb=get --verb=list --verb=watch --resource=pods
+  420  kubectl create sa pod-reader
+  421  kubectl create role-binding -h | less
+  422  kubectl create rolebinding -h | less
+  423  #kubectl create rolebinding admin-binding --role=admin --serviceaccount=monitoring:sa-dev
+  424  kubectl create rolebinding pod-reader-binding --role=pod-reader --serviceaccount=default:pod-reader
+  425  kubectl get deploy
+  426  kubectl set serviceaccount -h | less
+  427  kubectl set serviceaccount deployment webbie pod-reader
+  428  kubectl explain pod.spec.securityContext | less
+  429  kubectl explain pod.spec.containers.securityContext | less
+  430  vim securitycontextdemo2.yaml 
+  431  kubectl apply -f securitycontextdemo2.yaml 
+  432  kubectl exec -it security-context-demo -- sh
+  433  history
+  434  kubectl run kubenami bitnami/kubectl --dry-run=client -o yaml > kubenami.yaml
+  435  kubectl run kubenami --image=bitnami/kubectl --dry-run=client -o yaml > kubenami.yaml
+  436  vim kubenami.yaml 
+  437  kubectl explain pod.spec.securityContext | less
+  438  vim kubenami.yaml 
+  439  kubectl apply -f kubenami.yaml 
+  440  kubectl get pods
+  441  kubectl describe pod kubenami 
+  442  kubectl run cmd --image=busybox -- sleep infinity --dry-run -o yaml
+  443  kubectl run cmd2 --image=busybox --dry-run -o yaml -- sleep infinity
+  444  kubectl delete pods cmd kubenami 
+  445  kubectl apply -f kubenami.yaml 
+  446  kubectl get pods
+  447  kubectl logs kubenami 
+  448  kubectl delete --force --timeout=1 -f kubenami.yaml 
+  449  kubectl delete --force  -f kubenami.yaml 
+  450  vim kubenami.yaml 
+  451  kubectl apply -f kubenami.yaml 
+  452  kubectl get pods
+  453  kubectl logs kubenami 
+  454  kubectl delete --force  -f kubenami.yaml 
+  455  vim kubenami.yaml 
+  456  kubectl apply -f kubenami.yaml 
+  457  kubectl get pods
+  458  kubectl describe pod kubenami 
+  459  kubectl logs kubenami 
+  460  history
+  461  cat kubenami.yaml 
+  462  grep -i probe *
+  463  vim busybox-ready.yaml 
+  464  kubectl apply -f busybox-ready.yaml 
+  465  kubectl get pods
+  466  kubectl describe pod busybox-ready 
+  467  kubectl get pods
+  468  kubectl exec -it busybox-ready -- touch /tmp/nothing
+  469  sleep 10
+  470  kubectl get pods
+  471  grep -il probe *
+  472  vim nginx-probes.yaml 
+  473  kubectl apply -f nginx-probes.yaml 
+  474  kubectl get pods
+  475  kubectl describe pod nginx-probes 
+  476  kubectl delete pod nginx-probes 
+  477  vim nginx-probes.yaml 
+  478  kubectl apply -f nginx-probes.yaml 
+  479  kubectl get pods
+  480  sleep 12
+  481  kubectl get pods
+  482  kubectl describe pod nginx-probes 
+  483  kubectl expose pod nginx-probes --port=80
+  484  sleep 20
+  485  kubectl get endpoints
+  486  history
+  487  kubectl get events
+  488  vim troubleshooting.yaml 
+  489  kubectl apply -f troubleshooting.yaml 
+  490  kubectl get pods
+  491  kubectl describe pod troubleshooting-demo 
+  492  kubectl get cm
+  493  vim troubleshooting.yaml 
+  494  kubectl get crds
+  495  kubectl get pods nginx -o yaml | less
+  496  vim troubleshooting.yaml 
+  497  kubectl get pods
+  498  kubectl delete pod troubleshooting-demo --force
+  499  kubectl get pods
+  500  kubectl apply -f troubleshooting.yaml 
+  501  kubectl get pods
+  502  kubectl logs troubleshooting-demo 
+  503  vim troubleshooting.yaml 
+  504  kubectl delete pod troubleshooting-demo --force
+  505  kubectl apply -f troubleshooting.yaml 
+  506  kubectl get pods
+  507  vim canary.yaml 
+  508  grep -il old *
+  509  vim canary.yaml 
+  510  vim index.html
+  511  kubectl create cm -h | less
+  512  kubectl create cm old --from-file=index.html
+  513  kubectl get cm old -o yaml
+  514  echo new > index.html
+  515  kubectl create cm new --from-file=index.html
+  516  vim canary.yaml 
+  517  kubectl apply -f canary.yaml 
+  518  kubectl expose deploy canary --selector type=canary
+  519  kubectl expose deploy old --selector type=canary
+  520  kubectl expose deploy old --selector type=canary --port=80
+  521  kubectl edit svc old
+  522  kubectl get svc
+  523  curl 192.168.49.2:31140
+  524  kubectl get all
+  525  vim canary.yaml 
+  526  kubectl apply -f canary.yaml 
+  527  curl 192.168.49.2:31140
+  528  history
+  529  kubectl apply -f redis.yaml 
+  530  vim redis.yaml 
+  531  kubectl api-resources | grep eploy
+  532  kubectl api-version
+  533  kubectl api-versions
+  534  history > /tmp/aug2026.txt 
